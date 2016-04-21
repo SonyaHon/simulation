@@ -5,9 +5,9 @@
 #include "../headers/tile.h"
 
 void Render();
+void Timer(int a);
 
 int main(int argc, char **argv) {
-
 	
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE);
@@ -16,6 +16,7 @@ int main(int argc, char **argv) {
 	glutCreateWindow("The SIM");
 
 	glutDisplayFunc(Render);
+	glutTimerFunc(10, Timer, 0);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -25,9 +26,14 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
+void Timer(int a) {
+
+	glutPostRedisplay();
+	glutTimerFunc(10, Timer, 0);
+}
+
 void Render() {
 	glClear(GL_COLOR_BUFFER_BIT);
-
 
 	glutSwapBuffers();
 }

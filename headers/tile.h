@@ -13,6 +13,9 @@ private:
 	int type; // type of the tile
 
 public:
-};
+	Ttile();
+	Ttile(Vector2 pos, int type);
+	void Draw();
+};	
 
 #endif
