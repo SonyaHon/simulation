@@ -16,6 +16,9 @@ public:
 	Ttile();
 	Ttile(Vector2 pos, int type);
 	void Draw();
-};	
+	int getType();
+	void setType(int t);
+	void print();
+};
 
 #endif
