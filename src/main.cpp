@@ -3,20 +3,30 @@
 
 #include "../headers/vector2.h"
 #include "../headers/tile.h"
+#include "../headers/grass.h"
 
 #include <time.h>
+#include <vector>
 
 void Render();
 void Timer(int a);
 void generateMap();
 int getNeigh(int i, int j);
 
+int GlobalMapMatrix[100][100];
+
+/*
+ 0 - ground
+ 1 - water
+ 2 - super wall 
+ 3 - ground with grass on it
+*/
+
 Ttile arr[100][100];
+std::vector<TGrass> grassArr;
 
 int main(int argc, char **argv) {
-
 	srand(time(NULL));
-
 	generateMap();
 
 	glutInit(&argc, argv);
@@ -88,11 +98,39 @@ void generateMap() {
 		}
 	}
 
+	for(size_t i = 0; i < 100; ++i) {
+		for(size_t j = 0; j < 100; ++j) {
+			GlobalMapMatrix[i][j] = arr[i][j].getType();
+		}
+	}
+
+/*
+	for(size_t i = 0; i < 100; ++i) {
+		for(size_t j = 0; j < 100; ++j) {
+			std::cout << GlobalMapMatrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+*/
+
+	for(size_t i = 0; i < 500; ++i) {
+		Vector2 pos;
+		bool goodPlace = false;
+
+		pos.x = rand()%99 + 1;
+		pos.y = rand()%99 + 1;
+
+		TGrass grass = TGrass(pos, 90);
+		grassArr.push_back(grass);
+	}
 }
 
 void Timer(int a) {
 
-	generateMap();
+	for(size_t i = 0; i < grassArr.size(); ++i) {
+		grassArr[i].Proccess(GlobalMapMatrix, grassArr, i);
+	}
+
 	glutPostRedisplay();
 	glutTimerFunc(200, Timer, 0);
 }
@@ -104,6 +142,10 @@ void Render() {
 		for(size_t j = 0; j < 100; ++j) {
 			arr[i][j].Draw();
 		}
+	}
+
+	for(size_t i = 0; i < grassArr.size(); ++i) {
+		grassArr[i].Draw();
 	}
 
 	glutSwapBuffers();
