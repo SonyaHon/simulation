@@ -8,6 +8,7 @@
 
 void Render();
 void Timer(int a);
+void generateMap();
 int getNeigh(int i, int j);
 
 Ttile arr[100][100];
@@ -16,42 +17,7 @@ int main(int argc, char **argv) {
 
 	srand(time(NULL));
 
-	for(size_t i = 0; i < 100; ++i) {
-		for(size_t j = 0; j < 100; ++j) {
-			Vector2 v;
-			v.x = 10*i;
-			v.y = 10*j;
-			arr[i][j] = Ttile(v, rand()*rand()%2);
-		}
-	}
-
-	for(size_t i = 1; i < 99; ++i) {
-		for(size_t j = 1; j < 99; ++j) {
-			int a = getNeigh(i, j);
-			arr[i][j].setType(a);
-		}
-	}
-	for(size_t i = 1; i < 99; ++i) {
-		for(size_t j = 1; j < 99; ++j) {
-			int a = getNeigh(i, j);
-			arr[i][j].setType(a);
-		}
-	}	
-	for(size_t i = 1; i < 99; ++i) {
-		for(size_t j = 1; j < 99; ++j) {
-			int a = getNeigh(i, j);
-			arr[i][j].setType(a);
-		}
-	}	
-
-	for(size_t i = 0; i < 100; ++i) {
-		for(size_t j = 0; j < 100; ++j) {
-			if(i == 0 || i == 99 || j == 0 || j == 99)
-			arr[i][j].setType(2);
-		}
-	}		
-
-
+	generateMap();
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE);
@@ -88,9 +54,47 @@ int getNeigh(int i, int j) {
 	else return 1;
 }
 
+void generateMap() {
+
+	for(size_t i = 0; i < 100; ++i) {
+		for(size_t j = 0; j < 100; ++j) {
+			Vector2 v;
+			v.x = 10*i;
+			v.y = 10*j;
+			arr[i][j] = Ttile(v, rand()*rand()%2);
+		}
+	}
+
+	for(size_t howMany = 0; howMany < 7; ++howMany) {
+
+		for(size_t i = 1; i < 99; ++i) {
+			for(size_t j = 1; j < 99; ++j) {
+				int a = getNeigh(i, j);
+				arr[i][j].setType(a);
+			}
+		}
+	}
+
+	for(size_t i = 0; i < 100; ++i) {
+		for(size_t j = 0; j < 100; ++j) {
+			if(i == 0 || i == 99 || j == 0 || j == 99)
+			arr[i][j].setType(2);
+		}
+	}		
+
+	for(size_t i = 0; i < 100; ++i) {
+		for(size_t j = 0; j < 100; ++j) {
+			if(arr[i][j].getType() < 0) arr[i][j].setType(0);
+		}
+	}
+
+}
+
 void Timer(int a) {
+
+	generateMap();
 	glutPostRedisplay();
-	glutTimerFunc(50, Timer, 0);
+	glutTimerFunc(200, Timer, 0);
 }
 
 void Render() {

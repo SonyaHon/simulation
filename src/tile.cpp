@@ -29,23 +29,26 @@ void Ttile::setType(int t) {
 void Ttile::Draw() {
 	switch(type) {
 		case 0: // ground
-			glColor3f(0.32f, 0.25f, 0.02f);
+			
 			glBegin(GL_QUADS);
+			glColor3f(0.32f, 0.25f, 0.02f);
 			glVertex2f(position.x, position.y);
 			glVertex2f(position.x + size, position.y);
 			glVertex2f(position.x + size, position.y + size);
 			glVertex2f(position.x, position.y + size);
 			glEnd();
-			
+			glColor3f(1.0f, 1.0f, 1.0f);
 		break;
 		case 1: // water
-			glColor3f(0.1f, 0.1f, 1.0f);
+			
 			glBegin(GL_QUADS);
+			glColor3f(0.1f, 0.1f, 1.0f);
 			glVertex2f(position.x, position.y);
 			glVertex2f(position.x + size, position.y);
 			glVertex2f(position.x + size, position.y + size);
 			glVertex2f(position.x, position.y + size);
 			glEnd();
+			glColor3f(1.0f, 1.0f, 1.0f);
 		break;
 		case 2: // rock - wall of the map
 			glColor3f(0.1f, 0.1f, 0.1f);
@@ -55,6 +58,7 @@ void Ttile::Draw() {
 			glVertex2f(position.x + size, position.y + size);
 			glVertex2f(position.x, position.y + size);
 			glEnd();
+			glColor3f(1.0f, 1.0f, 1.0f);
 		break;
 	}
 }
