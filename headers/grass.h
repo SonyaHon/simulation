@@ -19,7 +19,7 @@ private:
 public:
 
 	TGrass();
-	TGrass(Vector2 pos, int birthTimeOut);
+	TGrass(Vector2 pos, int _birthTimeOut);
 	~TGrass();
 	void Draw();
 	void Proccess(int gmm[100][100], std::vector<TGrass> &all, int idx);

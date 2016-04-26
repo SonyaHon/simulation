@@ -4,6 +4,7 @@
 #include "../headers/vector2.h"
 #include "../headers/tile.h"
 #include "../headers/grass.h"
+#include "../headers/tree.h"
 
 #include <time.h>
 #include <vector>
@@ -24,6 +25,7 @@ int GlobalMapMatrix[100][100];
 
 Ttile arr[100][100];
 std::vector<TGrass> grassArr;
+std::vector<TTree> treeArr;
 
 int main(int argc, char **argv) {
 	srand(time(NULL));
@@ -119,6 +121,20 @@ void generateMap() {
 		TGrass grass = TGrass(pos, 90);
 		grassArr.push_back(grass);
 	}
+
+	for(size_t i = 0; i < 50; ++i) {
+		Vector2 pos;
+		bool goodPlace = false;
+		while(!goodPlace) {
+			pos.x = rand()%99 + 1;
+			pos.y = rand()%99 + 1;
+			if(GlobalMapMatrix[pos.x][pos.y] != 1 && GlobalMapMatrix[pos.x][pos.y] != 2)
+				goodPlace = true;
+		}
+
+		TTree tree = TTree(pos, 600);
+		treeArr.push_back(tree);
+	}
 }
 
 void Timer(int a) {
@@ -135,15 +151,18 @@ void Timer(int a) {
 void Render() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	for(size_t i = 0; i < 100; ++i) {
+	for(size_t i = 0; i < 100; ++i) { // Rendering main map 
 		for(size_t j = 0; j < 100; ++j) {
 			arr[i][j].Draw();
 		}
 	}
 
-
-	for(size_t i = 0; i < grassArr.size(); ++i) {
+	for(size_t i = 0; i < grassArr.size(); ++i) { // Rendering grass
 		grassArr[i].Draw();
+	}
+
+	for(size_t i = 0; i < treeArr.size(); ++i) {
+		treeArr[i].Draw();
 	}
 
 	glutSwapBuffers();
