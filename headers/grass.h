@@ -12,6 +12,9 @@ private:
 	Vector2 position;
 	int birthTimeOut;
 	int deathTimeOut;
+	int timer;
+	int multy;
+	int tries;
 
 public:
 

@@ -104,21 +104,17 @@ void generateMap() {
 		}
 	}
 
-/*
-	for(size_t i = 0; i < 100; ++i) {
-		for(size_t j = 0; j < 100; ++j) {
-			std::cout << GlobalMapMatrix[i][j] << " ";
-		}
-		std::cout << std::endl;
-	}
-*/
-
-	for(size_t i = 0; i < 500; ++i) {
+	for(size_t i = 0; i < 300; ++i) {
 		Vector2 pos;
 		bool goodPlace = false;
 
+		while(!goodPlace) {
 		pos.x = rand()%99 + 1;
 		pos.y = rand()%99 + 1;
+
+		if(GlobalMapMatrix[pos.x][pos.y] == 0)
+			goodPlace = true;
+		}
 
 		TGrass grass = TGrass(pos, 90);
 		grassArr.push_back(grass);
@@ -127,9 +123,10 @@ void generateMap() {
 
 void Timer(int a) {
 
-	for(size_t i = 0; i < grassArr.size(); ++i) {
+	for(int i = 0; i < grassArr.size(); ++i) {
 		grassArr[i].Proccess(GlobalMapMatrix, grassArr, i);
 	}
+	grassArr.shrink_to_fit();
 
 	glutPostRedisplay();
 	glutTimerFunc(200, Timer, 0);
@@ -143,6 +140,7 @@ void Render() {
 			arr[i][j].Draw();
 		}
 	}
+
 
 	for(size_t i = 0; i < grassArr.size(); ++i) {
 		grassArr[i].Draw();
